@@ -1,4 +1,4 @@
-# Library Management System
+# Library Book Management System
 ### REST API with Spring Boot, MySQL, and Hibernate
 
 RESTful API para gestionar una biblioteca: agregar, consultar, actualizar y eliminar libros. Construida con **Spring Boot**, **Spring Data JPA** (Hibernate) y **MySQL**.
