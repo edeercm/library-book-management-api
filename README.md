@@ -1,78 +1,246 @@
-# Library Management System - REST API with Spring Boot, MySQL, and Hibernate
+# Library Management System
+### REST API with Spring Boot, MySQL, and Hibernate
 
-## Project Overview
-
-This project is about building a RESTful API for managing a library system. Users can add, retrieve, update, and delete books in the system. The application uses Spring Boot to create the REST APIs, MySQL to store data, and Hibernate for object-relational mapping.
-
----
-
-## What We Did Step by Step
-
-### Step 1: Set Up the Project
-
-- Created a Spring Boot project with dependencies: Spring Web, Spring Data JPA, and MySQL Driver.  
-- Imported the project into an IDE like IntelliJ or Eclipse.  
-- Configured connection settings in `application.properties` to connect to a MySQL database.
-
-### Step 2: Configure MySQL Database
-
-- Installed and configured MySQL database locally.  
-- Created a database named `library_management`.  
-- Updated the Spring Boot configuration to connect to this database.
-
-### Step 3: Define the Data Model
-
-- Created a `Book` Java class to represent books with fields:  
-  - `id` (unique identifier)  
-  - `title`  
-  - `author`  
-  - `isbn`  
-  - `publishedDate`  
-- Used Hibernate and JPA annotations to map this class to the `books` table in MySQL.
-
-### Step 4: Create the Repository
-
-- Defined a `BookRepository` interface extending Spring Data JPA’s `JpaRepository`.  
-- This repository provides built-in CRUD operations for the `Book` entity.
-
-### Step 5: Build the REST API
-
-- Created a `BookController` class with REST endpoints:  
-  - `GET /books` to get all books  
-  - `GET /books/{id}` to get a specific book by ID  
-  - `POST /books` to add a new book  
-  - `PUT /books/{id}` to update book details  
-  - `DELETE /books/{id}` to delete a book  
-- Implemented the logic to handle each HTTP request and respond accordingly.
-
-### Step 6: Validate and Test the API
-
-- Added basic validation to ensure book data is correct before saving or updating.  
-- Implemented exception handling for cases like book not found or invalid input.  
-- Tested all endpoints using Postman to confirm correct behavior.  
-- Verified data persistence in MySQL database.
+RESTful API para gestionar una biblioteca: agregar, consultar, actualizar y eliminar libros. Construida con **Spring Boot**, **Spring Data JPA** (Hibernate) y **MySQL**.
 
 ---
 
-## How to Run This Project
+## 📌 Project Overview
 
-1. Clone the repository.  
-2. Make sure MySQL is installed and running on your machine.  
-3. Create the `library_management` database.  
-4. Update your `application.properties` with your MySQL username and password.  
-5. Open the project in your IDE and run the application.  
-6. Use Postman or similar tools to test the API endpoints:  
-   - `GET /books`  
-   - `GET /books/{id}`  
-   - `POST /books`  
-   - `PUT /books/{id}`  
-   - `DELETE /books/{id}`
+Este proyecto implementa una **API REST CRUD** para gestionar libros en un sistema de biblioteca. Usa:
+
+- **Spring Boot** para crear los endpoints REST
+- **Spring Data JPA** (Hibernate) para mapeo objeto-relacional
+- **MySQL** como base de datos persistente
 
 ---
 
-## Summary
+## ✨ Funcionalidades
 
-This project provides a practical example of building a full CRUD RESTful API with Spring Boot, connected to a MySQL database using Hibernate for ORM. It demonstrates how to map Java classes to database tables, perform CRUD operations, and test the APIs effectively. This setup is a strong foundation for learning how to build and manage backend services in Java.
+- Crear nuevos libros (`POST`)
+- Obtener lista de todos los libros (`GET`)
+- Obtener un libro por ID (`GET`)
+- Actualizar información de un libro (`PUT`)
+- Eliminar un libro (`DELETE`)
+- Validación básica de datos
+- Manejo de excepciones (libro no encontrado, input inválido)
 
 ---
 
+## 🛠 Tecnologías
+
+- Spring Boot 3.x (compatible con Java 17+)
+- Java 17+
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- MySQL 8.0+
+- Maven (wrapper incluido)
+
+---
+
+## 📂 Estructura del proyecto
+
+```text
+src/
+├── main/
+│   ├── java/
+│   │   └── com/
+│   │       └── example/
+│   │           └── library_management/
+│   │               ├── LibraryManagementApplication.java
+│   │               ├── controller/
+│   │               │   └── BookController.java
+│   │               ├── entity/
+│   │               │   └── Book.java
+│   │               └── repository/
+│   │                   └── BookRepository.java
+│   └── resources/
+│       └── application.properties
+├── test/
+│   └── java/
+│       └── com/
+│           └── example/
+│               └── library_management/
+│                   └── LibraryManagementApplicationTests.java
+└── pom.xml
+```
+
+> ⚠️ Verifica el paquete real en tu repositorio (`com.example.library_management` puede variar).
+
+---
+
+## 🧠 Modelo de datos
+
+### Entidad `Book`
+
+| Campo            | Tipo      | Descripción                     |
+|------------------|-----------|---------------------------------|
+| `id`             | Long      | Clave primaria autogenerada     |
+| `title`          | String    | Título del libro                |
+| `author`         | String    | Autor del libro                 |
+| `isbn`           | String    | ISBN (único recomendado)        |
+| `publishedDate`  | LocalDate | Fecha de publicación            |
+
+**Repositorio:**  
+`BookRepository` extiende `JpaRepository<Book, Long>`
+
+**Controlador:**  
+`BookController` expone endpoints REST bajo `/books`
+
+---
+
+## ⚙️ Configuración
+
+### Requisitos previos
+
+- **Java 17+** instalado
+- **Maven 3.6+** (o usar `mvnw`/`mvnw.cmd`)
+- **MySQL 8.0+** instalado y ejecutándose
+
+### Configuración de MySQL
+
+1. Crear la base de datos:
+
+```sql
+CREATE DATABASE library_management;
+```
+
+2. Actualizar `application.properties` con tus credenciales:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/library_management
+spring.datasource.username=root
+spring.datasource.password=tu_password_aqui
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+```
+
+> ⚠️ Cambia `root` y `tu_password_aqui` por tus credenciales reales de MySQL.
+
+---
+
+## ▶️ Construir y ejecutar
+
+### Windows
+
+```powershell
+.\mvnw.cmd clean package
+.\mvnw.cmd spring-boot:run
+```
+
+### Unix/macOS
+
+```bash
+./mvnw clean package
+./mvnw spring-boot:run
+```
+
+La API estará disponible en: **http://localhost:8080**
+
+---
+
+## 🔌 Endpoints (CRUD)
+
+| Método | Ruta            | Descripción              | Códigos de respuesta        |
+|--------|-----------------|--------------------------|-----------------------------|
+| GET    | `/books`        | Listar todos los libros  | 200 OK                      |
+| GET    | `/books/{id}`   | Obtener libro por ID     | 200 OK, 404 Not Found       |
+| POST   | `/books`        | Crear nuevo libro        | 201 Created, 400 Bad Request|
+| PUT    | `/books/{id}`   | Actualizar libro         | 200 OK, 404 Not Found       |
+| DELETE | `/books/{id}`   | Eliminar libro           | 204 No Content, 404 Not Found|
+
+---
+
+## 🧪 Ejemplos de uso (cURL)
+
+### Obtener todos los libros
+
+```bash
+curl -X GET http://localhost:8080/books
+```
+
+### Obtener un libro por ID
+
+```bash
+curl -X GET http://localhost:8080/books/1
+```
+
+### Crear un libro
+
+```bash
+curl -X POST http://localhost:8080/books \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Código Limpio",
+    "author": "Robert C. Martin",
+    "isbn": "978-0132350884",
+    "publishedDate": "2008-08-01"
+  }'
+```
+
+### Actualizar un libro
+
+```bash
+curl -X PUT http://localhost:8080/books/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Código Limpio - Actualizado",
+    "author": "Robert C. Martin",
+    "isbn": "978-0132350884",
+    "publishedDate": "2008-08-01"
+  }'
+```
+
+### Eliminar un libro
+
+```bash
+curl -X DELETE http://localhost:8080/books/1
+```
+
+---
+
+## ✅ Validación y pruebas
+
+- Validación básica asegurando que datos de libro sean correctos antes de guardar/actualizar
+- Manejo de excepciones para casos como:
+  - Libro no encontrado (404)
+  - Input inválido (400)
+- Pruebas con **Postman** para confirmar comportamiento correcto
+- Verificación de persistencia en **MySQL**
+
+---
+
+## 🧩 Buenas prácticas y mejoras recomendadas
+
+- Añadir capa **service** para separar lógica de negocio del controlador
+- Usar **DTOs** para evitar exponer la entidad directamente
+- Implementar validaciones con `@Valid` y annotations de `jakarta.validation`
+- Añadir manejo centralizado de errores con `@ControllerAdvice`
+- Implementar tests unitarios e integración:
+  - `@SpringBootTest` para pruebas de integración
+  - `@DataJpaTest` para pruebas de repositorio
+- Documentar API con **OpenAPI/Swagger** para facilitar consumo
+- Añadir autenticación/autorización (JWT) si la API será pública
+- Configurar **polls de conexión** y pooling (HikariCP) para producción
+
+---
+
+## 📝 Resumen
+
+Este proyecto es un ejemplo práctico de cómo construir una **API REST CRUD completa** con **Spring Boot** conectada a una base de datos **MySQL** usando **Hibernate** para ORM. Demuestra:
+
+- Mapeo de clases Java a tablas de base de datos
+- Operaciones CRUD completas
+- Validación y manejo de excepciones
+- Pruebas de API con Postman/cURL
+- Persistencia de datos en MySQL
+
+Es una base sólida para aprender y extender hacia servicios backend más complejos en Java.
+
+---
+
+## 📄 Licencia
+
+Agregar licencia si se requiere (ej. MIT).
